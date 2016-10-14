@@ -11,11 +11,11 @@ import cookies from 'js-cookie'
 
 import {NotFound} from './views/404.jsx'
 import {App} from './views/app.jsx'
-import {Main} from './components/main.jsx'
-import {Article} from './components/article.jsx'
-import {AdminArticleList} from './components/admin-list.jsx'
-import {AdminArticlePost} from './components/admin-post.jsx'
-import {AdminArticleEdit} from './components/admin-edit.jsx'
+import {Main} from './pages/main.jsx'
+import {Article} from './pages/article.jsx'
+import {AdminArticleList} from './pages/admin-list.jsx'
+import {AdminArticlePost} from './pages/admin-post.jsx'
+import {AdminArticleEdit} from './pages/admin-edit.jsx'
 
 const store = configureCounterStore()
 const history = syncHistoryWithStore(browserHistory, store)

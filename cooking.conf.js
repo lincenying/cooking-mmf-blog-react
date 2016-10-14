@@ -28,11 +28,11 @@ cooking.set({
         publicPath: '/',
         clean: false,
         proxy: {
-            // '/api/**': {
-            //     target: 'http://localhost:3000/',
-            //     secure: false,
-            //     changeOrigin: true
-            // }
+            '/api/**': {
+                target: 'http://localhost:3000/',
+                secure: false,
+                changeOrigin: true
+            }
         }
     },
 
@@ -44,7 +44,7 @@ cooking.set({
     assetsPath: 'images',
     urlLoaderLimit: 10000,
     extractCSS: 'css/[name].[contenthash:7].css',
-    extends: ['react', 'es2016', 'eslint', 'less', ]
+    extends: ['react', 'eslint', 'less']
 })
 
 cooking.add('resolve.alias', {

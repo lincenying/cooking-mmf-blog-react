@@ -5,8 +5,8 @@ import {immutableRenderDecorator} from 'react-immutable-render-mixin'
 import Link from 'react-router/lib/Link'
 import {propTypes} from '../decorators'
 import {fetchArticle} from 'alias-store-actions/article'
-import {Comment} from './comment.jsx'
-import {Footer} from './footer.jsx'
+import {Comment} from '../components/comment.jsx'
+import {Footer} from '../components/footer.jsx'
 
 function mapStateToProps(state) {
     return {
