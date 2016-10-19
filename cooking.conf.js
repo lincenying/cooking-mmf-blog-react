@@ -2,6 +2,8 @@
 
 var path = require('path');
 var cooking = require('cooking');
+var autoprefixer = require('autoprefixer')
+var browserslist = require('browserslist')
 var webpack = require('webpack');
 
 cooking.set({
@@ -44,6 +46,9 @@ cooking.set({
     assetsPath: 'images',
     urlLoaderLimit: 10000,
     extractCSS: 'css/[name].[contenthash:7].css',
+    postcss: [
+        autoprefixer({ browsers: browserslist('last 2 version, > 0.1%')})
+    ],
     extends: ['react', 'eslint', 'less']
 })
 
