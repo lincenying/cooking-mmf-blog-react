@@ -20,9 +20,7 @@ export class MainItem extends Component {
     }
     render() {
         const item = this.props.list
-        const btn = this.state.showMore ?
-            <a onClick={this.handleOpen} className="less" href="javascript:;">收起 ↑</a> :
-            <a onClick={this.handleOpen} className="more" href="javascript:;">展开 ↓</a>
+        const btn = this.state.showMore ? <a onClick={this.handleOpen} className="less" href="javascript:;">收起 ↑</a> : <a onClick={this.handleOpen} className="more" href="javascript:;">展开 ↓</a>
         return (
             <div className="index m-post box article">
                 <a href="javascript:;" className="w-icon w-icon-1">&nbsp;</a>
@@ -33,7 +31,7 @@ export class MainItem extends Component {
                 <div className="cont cont-1">
                     <div className="text">
                         <h2><Link to={`/article/${item._id}`}>{item.title}</Link></h2>
-                        <div className={!this.state.showMore ? "markdown-body showless" : "markdown-body"} dangerouslySetInnerHTML={{__html: item.content}} />
+                        <div className={!this.state.showMore ? "markdown-body showless" : "markdown-body"} dangerouslySetInnerHTML={{__html: item.html}} />
                         <div className="more-less">{btn}</div>
                     </div>
                 </div>
