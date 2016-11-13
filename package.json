@@ -37,6 +37,6 @@
   },
   "scripts": {
     "dev": "cooking watch -p",
-    "dist": "cooking build -p"
+    "build": "cooking build -p"
   }
 }
