@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {immutableRenderDecorator} from 'react-immutable-render-mixin'
 import {propTypes} from '../decorators'
 import {setMessage} from 'alias-store-actions'
+import config from '../config'
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({setMessage}, dispatch)
@@ -46,11 +47,12 @@ export class AdminArticlePost extends Component {
             saveHTMLToTextarea : true,
             imageUpload : true,
             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL : "/api/?action=upload"
+            imageUploadURL : config.api + "?action=upload"
         })
     }
     handleSubmit(event) {
         event.preventDefault()
+        const target = event.target
         const {setMessage} = this.props
         const {title, category} = this.state
         // eslint-disable-next-line
@@ -62,15 +64,24 @@ export class AdminArticlePost extends Component {
             })
             return false
         }
-        var data = new FormData(event.target)
+        var data = new FormData(target)
         $.ajax({
+            url: config.api + 'admin/article/post',
+            type: 'post',
             contentType: false,
             processData: false,
             data
         }).then(json => {
             if (json.code === 200) {
                 setMessage('发布成功!')
-                event.target.reset()
+                // eslint-disable-next-line
+                articleEditor.clear()
+                target.reset()
+                this.setState({
+                    title: '',
+                    category: '',
+                    content: ''
+                })
             } else {
                 setMessage({
                     type: 'error',
@@ -80,8 +91,9 @@ export class AdminArticlePost extends Component {
         })
     }
     handleChange(e) {
-        const id = e.target.id,
-            value = e.target.value
+        const target = e.target
+        const id = target.id,
+            value = target.value
         const state = this.state
         state[id] = value
         this.setState(state)
@@ -90,9 +102,9 @@ export class AdminArticlePost extends Component {
         return (
             <div className="g-mn">
                 <div className="box">
-                    <form onSubmit={this.handleSubmit} id="article-post" action="/api/" method="post">
+                    <form onSubmit={this.handleSubmit} id="article-post" action={config.api + 'admin/article/post'} method="post">
                         <section id="post-title">
-                            <input value={this.state.title} onChange={this.handleChange} id="title" type="text" className="form-control" placeholder="请输入标题" />
+                            <input value={this.state.title} onChange={this.handleChange} id="title" name="title" type="text" className="form-control" placeholder="请输入标题" />
                         </section>
                         <section id="post-category">
                             <select value={this.state.category} onChange={this.handleChange} id="category" name="category" className="form-control">

@@ -6,6 +6,7 @@ import {MenuAdmin} from '../components/menu-admin.jsx'
 import {Arrow} from '../components/arrow.jsx'
 import {DevTools} from '../components/devtools.jsx'
 import {Toastr} from '../components/_toastr.jsx'
+
 import '../assets/css/style.css'
 import 'nprogress/nprogress.css'
 import 'animate.css/animate.min.css'

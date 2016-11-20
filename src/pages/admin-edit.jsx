@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {immutableRenderDecorator} from 'react-immutable-render-mixin'
 import {propTypes} from '../decorators'
 import {fetchAdminArticle, setMessage} from 'alias-store-actions'
+import config from '../config'
 
 function mapStateToProps(state) {
     return {
@@ -35,7 +36,6 @@ export class AdminArticleEdit extends Component {
     componentWillMount() {
         const {fetchAdminArticle, params: {id}, location: {pathname}} = this.props
         fetchAdminArticle({
-            action: 'getArticle',
             id,
             pathname
         })
@@ -43,9 +43,9 @@ export class AdminArticleEdit extends Component {
     componentDidUpdate(prevProps) {
         if (!prevProps.article.data._id && this.props.article.data._id) {
             this.setState({
-                title: this.props.article.data.title,
-                category: this.props.article.data.category,
-                content: this.props.article.data.content
+                title: this.props.article.data.title || '',
+                category: this.props.article.data.category || '',
+                content: this.props.article.data.content || ''
             })
             // eslint-disable-next-line
             window.editEditor = editormd("edit-content", {
@@ -67,13 +67,13 @@ export class AdminArticleEdit extends Component {
                 saveHTMLToTextarea : true,
                 imageUpload : true,
                 imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                imageUploadURL : "/api/?action=upload"
+                imageUploadURL : config.api + "?action=upload"
             })
         }
     }
     handleSubmit(event) {
         event.preventDefault()
-        const {setMessage, history, params: {page}} = this.props
+        const {setMessage, router, params: {page}} = this.props
         const {title, category} = this.state
         // eslint-disable-next-line
         const content = editEditor.getMarkdown()
@@ -86,13 +86,15 @@ export class AdminArticleEdit extends Component {
         }
         var data = new FormData(event.target)
         $.ajax({
+            url: config.api + 'admin/article/post',
+            type: 'post',
             contentType: false,
             processData: false,
             data
         }).then(json => {
             if (json.code === 200) {
                 setMessage('编辑成功!')
-                history.push('/admin/list/' + page)
+                router.push('/admin/list/' + page)
             } else {
                 setMessage({
                     type: 'error',
@@ -102,8 +104,9 @@ export class AdminArticleEdit extends Component {
         })
     }
     handleChange(e) {
-        const id = e.target.name,
-            value = e.target.value
+        const target = e.target
+        const id = target.name,
+            value = target.value
         const state = this.state
         state[id] = value
         this.setState(state)
@@ -113,7 +116,7 @@ export class AdminArticleEdit extends Component {
         return (
             <div className="g-mn">
                 <div className="box">
-                    <form onSubmit={this.handleSubmit} id="article-edit" action="/api/" method="post">
+                    <form onSubmit={this.handleSubmit} id="article-edit" action={config.api + 'admin/article/modify'} method="post">
                         <section id="edit-title">
                             <input value={this.state.title} onChange={this.handleChange} id="title" type="text" name="title" className="form-control" placeholder="请输入标题" />
                         </section>
